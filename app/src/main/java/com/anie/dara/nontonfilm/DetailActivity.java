@@ -11,15 +11,23 @@ import android.widget.TextView;
 
 import com.anie.dara.nontonfilm.adapter.GenreAdapter;
 import com.anie.dara.nontonfilm.model.FilmItem;
+import com.anie.dara.nontonfilm.model.FilmList;
 import com.anie.dara.nontonfilm.model.Genre;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailActivity extends AppCompatActivity {
 
     FilmItem filmItem;
-    TextView title, rate, date, bahasa, overview;
+    TextView title, rate, date, bahasa, overview, tagline, duration;
     ImageView poster;
     GenreAdapter genreAdapter;
     ArrayList<Integer> genre;
@@ -37,6 +45,8 @@ public class DetailActivity extends AppCompatActivity {
         bahasa = findViewById(R.id.detail_bahas);
         overview = findViewById(R.id.detail_over);
         poster = findViewById(R.id.detail_poster);
+        tagline = findViewById(R.id.detail_tagline);
+        duration = findViewById(R.id.detail_duration);
 
 
         genreAdapter = new GenreAdapter();
@@ -54,51 +64,40 @@ public class DetailActivity extends AppCompatActivity {
 
         if(filmItem != null) {
             getSupportActionBar().setTitle(filmItem.getTitle());
-            rate.setText(String.valueOf(filmItem.getVote_average()));
-            date.setText(filmItem.getRelease_date());
-            overview.setText(filmItem.getOverview());
-            title.setText(filmItem.getTitle());
-            genre = filmItem.getGenre_ids();
-            Log.d("arrayGenre", String.valueOf(genre.size()));
+//            rate.setText(filmItem.getVote_average());
             String url = "http://image.tmdb.org/t/p/w500" + filmItem.getPoster_path();
             Glide.with(this).load(url).into(poster);
 
-//            //dapatin genre
-//            Retrofit retrofit = new Retrofit.Builder()
-//                    .baseUrl("https://api.themoviedb.org")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build();
-//            FilmClient client = retrofit.create(FilmClient.class);
-//            Call<FilmList> call = client.getGenre("4c180b85240811f5521423090f06d6cc");
-//            call.enqueue(new Callback<FilmList>() {
-//                @Override
-//                public void onResponse(Call<FilmList> call, Response<FilmList> response) {
-//                    FilmList list = response.body();
-//                    List<Genre> listGenre = list.genres;
-//                    Log.d("noGenre", String.valueOf(list));
-//                    genreFilm = new ArrayList<>();
-//                    for(int i=0; i<genre.size();i++){
-//                        for(Genre item : listGenre)
-//                        {
-//                            Log.d("id", String.valueOf(item.getId()));
-//                            Log.d("idDia", String.valueOf(genre.get(i)));
-//                            if(item.getId() == genre.get(i) ){
-//                                Log.d("sama", item.getName());
-//                                genreFilm.add(item);
-//                            }
-//                        }
-//                        i++;
-//                    }
-//                    Log.d("genreArray", String.valueOf(genreFilm.size()));
-//
-//                    genreAdapter.setDaftarGenre(new ArrayList<Genre>(genreFilm));
-//                }
-//
-//                @Override
-//                public void onFailure(Call<FilmList> call, Throwable t) {
-//
-//                }
-//            });
+            //dapatin genre
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://api.themoviedb.org")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            FilmClient client = retrofit.create(FilmClient.class);
+            Log.d("idFIlm", String.valueOf(filmItem.getId()));
+            Call<FilmList> call = client.getFilm(filmItem.getId(), "4c180b85240811f5521423090f06d6cc");
+            call.enqueue(new Callback<FilmList>() {
+                @Override
+                public void onResponse(Call<FilmList> call, Response<FilmList> response) {
+                    FilmList list = response.body();
+                    List detail =response.body().detail;
+                    List<FilmItem> listfilm = list.detail;
+                    Log.d("ad", String.valueOf(listfilm.get(0).getVote_average()));
+//                    rate.setText(String.valueOf(listfilm.get(0).getVote_average()));
+                    date.setText(listfilm.get(0).getRelease_date());
+                    overview.setText(listfilm.get(0).getOverview());
+                    title.setText(listfilm.get(0).getTitle());
+                    bahasa.setText(listfilm.get(0).getOriginal_language());
+                    duration.setText(String.valueOf(listfilm.get(0).getRuntime()));
+                    tagline.setText(listfilm.get(0).getTagline());
+
+                }
+
+                @Override
+                public void onFailure(Call<FilmList> call, Throwable t) {
+
+                }
+            });
         }
     }
 }

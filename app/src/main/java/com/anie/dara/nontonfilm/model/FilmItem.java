@@ -13,6 +13,23 @@ public class FilmItem implements Parcelable {
     String release_date;
     String poster_path;
     String original_language;
+    String tagline;
+    Integer runtime;
+
+    public String getTagline() {
+        if(tagline==null){
+            tagline="unavaiable";
+        }
+        return tagline;
+    }
+
+    public Integer getRuntime() {
+        if(this.runtime == null){
+            runtime = 0;
+        }
+        return runtime;
+    }
+
     ArrayList<Integer> genre_ids;
 
     public ArrayList<Integer> getGenre_ids() {

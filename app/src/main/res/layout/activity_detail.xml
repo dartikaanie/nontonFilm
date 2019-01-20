@@ -36,7 +36,7 @@
             android:typeface="monospace" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/detail_tagline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -70,7 +70,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/detail_duration"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="50dp"
