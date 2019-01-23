@@ -1,9 +1,8 @@
 package com.anie.dara.nontonfilm;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKlikFilm, View.OnClickListener {
+public class SearchActivity extends AppCompatActivity implements FilmAdapter.OnKlikFilm, View.OnClickListener {
 
     ArrayList<FilmItem> daftarFilm = new ArrayList<>();
     RecyclerView revFilmlist;
@@ -41,14 +40,11 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
     Button cariBtn;
     EditText cariText;
     String filmCari;
-    Menu menuCari, menuUpcoming, menuNow;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_search);
         filmAdapter = new FilmAdapter();
         filmAdapter.setDataFilm(daftarFilm);
         filmAdapter.setClickHandler(this);
@@ -64,13 +60,6 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
         cariBtn.setOnClickListener(this);
         progressBar.setVisibility(View.VISIBLE);
         revFilmlist.setVisibility(View.INVISIBLE);
-
-        menuCari = findViewById(R.id.menu_search);
-        menuNow = findViewById(R.id.menu_now);
-        menuUpcoming = findViewById(R.id.menu_now);
-
-        int pokeCount = 3;
-        String cari = String.format(getResources().getString(R.string.search_film));
 
         getUpcomingFilms();;
     }
@@ -92,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
 
                 FilmList  listFilm = response.body();
                 List<FilmItem> listFilmItem = listFilm.results;
-                Toast.makeText(MainActivity.this,"Berhasil mengambil Data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this,"Berhasil mengambil Data", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 cardCari.setVisibility(View.VISIBLE);
                 revFilmlist.setVisibility(View.VISIBLE);
@@ -102,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
 
             @Override
             public void onFailure(Call<FilmList> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"Gagal mengambil Data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this,"Gagal mengambil Data", Toast.LENGTH_SHORT).show();
                 Log.d("Gagal", t.toString());
             }
         });
@@ -135,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
             public void onResponse(Call<FilmList> call, Response<FilmList> response) {
                 FilmList  listFilm = response.body();
                 List<FilmItem> listFilmItem = listFilm.results;
-                Toast.makeText(MainActivity.this,"Berhasil mengambil Data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this,"Berhasil mengambil Data", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 cardCari.setVisibility(View.VISIBLE);
                 filmAdapter.setDataFilm(new ArrayList<FilmItem>(listFilmItem));
@@ -143,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
 
             @Override
             public void onFailure(Call<FilmList> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -163,9 +152,9 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
         //Jika tombol refresh diklik
         switch (item.getItemId()){
             case   R.id.menu_upcoming :
-               Intent moveUpcoming = new Intent(this, MainActivity.class);
-               startActivity(moveUpcoming);
-               break;
+                Intent moveUpcoming = new Intent(this, MainActivity.class);
+                startActivity(moveUpcoming);
+                break;
             case  R.id.menu_now :
                 Intent moveNowPlaying = new Intent(this, NowPlayingActivity.class);
                 startActivity(moveNowPlaying);
@@ -174,9 +163,6 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
                 Intent moveSearch = new Intent(this, SearchActivity.class);
                 startActivity(moveSearch);
                 break;
-            case R.id.menu_bahasa :
-                Intent settingBahasa = new Intent(Settings.ACTION_LOCALE_SETTINGS);
-                startActivity(settingBahasa);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -197,4 +183,3 @@ public class MainActivity extends AppCompatActivity implements FilmAdapter.OnKli
         }
     }
 }
-

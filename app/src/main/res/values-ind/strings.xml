@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Nonton Film</string>
+    <string name="Judul" />
+    <string name="lokasi" />
+    <string name="now_playing">Sedang Tayang</string>
+    <string name="upcoming">Akan Datang</string>
+    <string name="search_film">Cari Film</string>
+</resources>

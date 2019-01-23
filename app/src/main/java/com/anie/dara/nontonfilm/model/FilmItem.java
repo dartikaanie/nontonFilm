@@ -15,6 +15,11 @@ public class FilmItem implements Parcelable {
     String original_language;
     String tagline;
     Integer runtime;
+    ArrayList<Genre> genres;
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
 
     public String getTagline() {
         if(tagline==null){

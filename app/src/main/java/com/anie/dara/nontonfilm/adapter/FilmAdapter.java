@@ -2,7 +2,6 @@ package com.anie.dara.nontonfilm.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder>{
 
     public void setDataFilm(ArrayList<FilmItem> films) {
         daftarFilm = films;
-        Log.d("daftar", String.valueOf(daftarFilm.size()));
         notifyDataSetChanged();
     }
 
@@ -39,7 +37,12 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder>{
     @Override
     public void onBindViewHolder(@NonNull FilmHolder holder, int position) {
         FilmItem filmItem = daftarFilm.get(position);
-        String subdes = filmItem.getOverview().substring(0,110)+"...";
+        String subdes;
+        if(filmItem.getOverview().length()<100){
+            subdes=filmItem.getOverview();
+        } else{
+            subdes=filmItem.getOverview().substring(0,100)+"...";
+        }
         holder.title.setText(filmItem.getTitle());
         holder.overview.setText(subdes);
 

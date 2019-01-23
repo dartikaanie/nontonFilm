@@ -11,6 +11,7 @@ public class FilmList {
     @SerializedName("genres")
     public List<Genre> genres;
 
+    @SerializedName("")
     public List<FilmItem> detail;
 
 }

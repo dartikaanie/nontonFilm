@@ -1,5 +1,6 @@
 package com.anie.dara.nontonfilm;
 
+import com.anie.dara.nontonfilm.model.FilmItem;
 import com.anie.dara.nontonfilm.model.FilmList;
 
 import retrofit2.Call;
@@ -11,8 +12,11 @@ public interface FilmClient {
     @GET("/3/movie/upcoming")
     Call<FilmList> getUpcomingFilms(@Query("api_key") String api_key);
 
+    @GET("/3/movie/now_playing")
+    Call<FilmList> getNowPlayingFilms(@Query("api_key") String api_key);
+
     @GET("/3/movie/{id}")
-    Call<FilmList> getFilm(@Path("id") int id, @Query("api_key") String api_key);
+    Call<FilmItem> getFilm(@Path("id") int id, @Query("api_key") String api_key);
 
     @GET("/3/search/movie")
     Call<FilmList> search(
