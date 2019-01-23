@@ -5,4 +5,8 @@
     <string name="now_playing">Sedang Tayang</string>
     <string name="upcoming">Akan Datang</string>
     <string name="search_film">Cari Film</string>
+    <string name="search">Cari</string>
+    <string name="movie_title">Judul Film</string>
+    <string name="success">Berhasl mengambil data</string>
+    <string name="Fail">Gagal mengambil data</string>
 </resources>

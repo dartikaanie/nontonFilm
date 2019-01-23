@@ -4,5 +4,9 @@
     <string name="lokasi" />
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
-    <string name="search_film">search Film</string>
+    <string name="search_film">Search Film</string>
+    <string name="search">search</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="success">Success to get data</string>
+    <string name="Fail">Fail to get data</string>
 </resources>
