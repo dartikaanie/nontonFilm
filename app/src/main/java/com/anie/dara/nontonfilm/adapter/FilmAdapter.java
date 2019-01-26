@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder>{
-    ArrayList<FilmItem> daftarFilm = new ArrayList<>();
-    OnKlikFilm klikFilm;
+    private ArrayList<FilmItem> daftarFilm = new ArrayList<>();
+    private OnKlikFilm klikFilm;
 
 
     public void setDataFilm(ArrayList<FilmItem> films) {

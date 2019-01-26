@@ -10,6 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.anie.dara.nontonfilm.fragment.NowPlayingFragment;
+import com.anie.dara.nontonfilm.fragment.SearchFragment;
+import com.anie.dara.nontonfilm.fragment.UpComingFragment;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static String apiKey = BuildConfig.TMDB_API_KEY;
@@ -19,9 +23,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        loadFragment(new NowPlayingFragment());
+            loadFragment(new NowPlayingFragment());
 
     }
 

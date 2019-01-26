@@ -29,14 +29,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailActivity extends AppCompatActivity {
 
-    FilmItem filmItem;
-    TextView title, rate, date, bahasa, overview, tagline, duration;
-    ImageView poster;
-    GenreAdapter genreAdapter;
-    ArrayList<Integer> genre;
-    ArrayList<Genre> genreFilm;
-    RecyclerView revGenre;
-    FrameLayout detail_view, detailProses;
+    private  FilmItem filmItem;
+    private TextView title, rate, date, bahasa, overview, tagline, duration;
+    private  ImageView poster;
+    private  GenreAdapter genreAdapter;
+    private   ArrayList<Integer> genre;
+    private   ArrayList<Genre> genreFilm;
+    private    RecyclerView revGenre;
+    private    FrameLayout detail_view, detailProses;
 
     @SuppressLint("WrongViewCast")
     @Override

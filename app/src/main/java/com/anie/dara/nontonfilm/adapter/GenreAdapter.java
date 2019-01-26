@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder> {
 
-    ArrayList<Genre> daftarGenre = new ArrayList<>();
+    private ArrayList<Genre> daftarGenre = new ArrayList<>();
 
     public void setDaftarGenre(ArrayList<Genre> genre) {
         daftarGenre = genre;
