@@ -9,6 +9,11 @@
     <string name="movie_title">Movie Title</string>
     <string name="success">Success to get data</string>
     <string name="Fail">Fail to get data</string>
+    <string name="addFav">Success to add Favorite</string>
+    <string name="deleteFav">Success to delete Favorite</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

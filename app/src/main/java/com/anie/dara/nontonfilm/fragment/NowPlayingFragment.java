@@ -54,6 +54,7 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_now_playing, container, false);
+
         filmAdapter = new FilmAdapter();
         filmAdapter.setDataFilm(daftarFilm);
         filmAdapter.setClickHandler(this);

@@ -9,4 +9,6 @@
     <string name="movie_title">Judul Film</string>
     <string name="success">Berhasl mengambil data</string>
     <string name="Fail">Gagal mengambil data</string>
+    <string name="addFav">berhasil Menambah Favorit</string>
+    <string name="deleteFav">Berhasil menghapus Favorit</string>
 </resources>

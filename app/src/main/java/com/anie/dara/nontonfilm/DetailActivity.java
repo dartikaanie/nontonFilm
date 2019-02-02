@@ -8,13 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anie.dara.nontonfilm.adapter.GenreAdapter;
+import com.anie.dara.nontonfilm.db.FavoritHelper;
 import com.anie.dara.nontonfilm.model.FilmItem;
 import com.anie.dara.nontonfilm.model.Genre;
 import com.bumptech.glide.Glide;
@@ -37,6 +41,8 @@ public class DetailActivity extends AppCompatActivity {
     private   ArrayList<Genre> genreFilm;
     private    RecyclerView revGenre;
     private    FrameLayout detail_view, detailProses;
+    FavoritHelper favoritHelper;
+    MenuItem fav;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -89,7 +95,6 @@ public class DetailActivity extends AppCompatActivity {
                     FilmItem list = response.body();
                     detail_view.setVisibility(View.VISIBLE);
                     detailProses.setVisibility(View.INVISIBLE);
-
                     rate.setText(String.valueOf(list.getVote_average()));
                     date.setText(list.getRelease_date());
                     overview.setText(list.getOverview());
@@ -108,15 +113,67 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_detail, menu);
+
+        fav = menu.findItem(R.id.favorit_btn);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case android.R.id.home:
                 onBackPressed();
                 break;
+            case R.id.favorit_btn :
+                changeFavorit();
+                break;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeFavorit(){
+        favoritHelper = new FavoritHelper(this);
+        favoritHelper.open();
+        String change;
+        if(!favoritHelper.cariFav(filmItem.getId())) {
+            favoritHelper.insert(filmItem.getId(), filmItem.getTitle(), filmItem.getOverview(), filmItem.getPoster_path());
+            change = String.format(DetailActivity.this.getString(R.string.addFav));
+            fav.setIcon(R.drawable.favorit_fill);
+        }else{
+            favoritHelper.delete(filmItem.getId());
+            change = String.format(DetailActivity.this.getString(R.string.deleteFav));
+            fav.setIcon(R.drawable.favorit_fill_gray);
+        }
+        favoritHelper.close();
+
+        Toast.makeText(DetailActivity.this,change, Toast.LENGTH_SHORT).show();
+
+       }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        favoritHelper = new FavoritHelper(this);
+        favoritHelper.open();
+        Log.d("id_fl", String.valueOf(filmItem.getId()));
+        if(favoritHelper.cariFav(filmItem.getId())){
+            fav.setIcon(R.drawable.favorit_fill);
+            Toast.makeText(DetailActivity.this,"favorit", Toast.LENGTH_SHORT).show();
+        }else{
+            fav.setIcon(R.drawable.favorit_fill_gray);
+            Toast.makeText(DetailActivity.this,"no favorit", Toast.LENGTH_SHORT).show();
+        }
+        favoritHelper.close();
+        return true;
     }
 }
 

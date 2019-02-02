@@ -13,5 +13,9 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/search"
         android:title="@string/search_film" />
+    <item
+        android:id="@+id/menu_favorit"
+        android:icon="@drawable/favorit_fill_gray"
+        android:title="favorit" />
 
 </menu>

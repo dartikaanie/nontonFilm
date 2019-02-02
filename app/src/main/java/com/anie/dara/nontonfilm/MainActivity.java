@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.anie.dara.nontonfilm.fragment.FavoriteFragment;
 import com.anie.dara.nontonfilm.fragment.NowPlayingFragment;
 import com.anie.dara.nontonfilm.fragment.SearchFragment;
 import com.anie.dara.nontonfilm.fragment.UpComingFragment;
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case  R.id.menu_search :
                 loadFragment(new SearchFragment());
+                break;
+            case  R.id.menu_favorit :
+                loadFragment(new FavoriteFragment());
                 break;
         }
         return true;
