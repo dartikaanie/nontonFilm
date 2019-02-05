@@ -38,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFilm {
 
 
-    private ArrayList<FilmItem> daftarFilm = new ArrayList<>();
+    public static ArrayList<FilmItem> daftarFilm = new ArrayList<>();
     private  RecyclerView revFilmlist;
     private  FilmAdapter filmAdapter;
     private  ProgressBar progressBar;
@@ -93,7 +93,8 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
                 Toast.makeText(activity,sukses, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 revFilmlist.setVisibility(View.VISIBLE);
-                filmAdapter.setDataFilm(new ArrayList<FilmItem>(listFilmItem));
+                daftarFilm = new ArrayList<FilmItem>(listFilmItem);
+                filmAdapter.setDataFilm(daftarFilm);
             }
 
             @Override
@@ -107,6 +108,12 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
         ((AppCompatActivity)activity).getSupportActionBar().setSubtitle(title);
 
     }
+
+//    public static ArrayList<FilmItem> getDataNowPlaying (){
+//        ArrayList<FilmItem> listFilm = new ArrayList<>();
+//        listFilm
+//        return listFilm;
+//    }
 
     @Override
     public void filmItemClicked(FilmItem filmItem) {

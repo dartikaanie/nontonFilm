@@ -3,8 +3,13 @@
     package="com.anie.dara.nontonfilm">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <permission android:name="com.anie.dara.nontonfilm.READ_DATABASE" android:protectionLevel="normal"/>
-    <permission android:name="com.anie.dara.nontonfilm.WRITE_DATABASE" android:protectionLevel="normal"/>
+
+    <permission
+        android:name="com.anie.dara.nontonfilm.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.anie.dara.nontonfilm.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -20,15 +25,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".DetailActivity" />
 
         <provider
-            android:authorities="com.anie.dara.nontonfilm"
             android:name=".Provider.FavoritProvider"
+            android:authorities="com.anie.dara.nontonfilm"
             android:exported="true"
             android:readPermission="com.anie.dara.nontonfilm.READ_DATABASE"
             android:writePermission="com.anie.dara.nontonfilm.WRITE_DATABASE" />
+
+        <receiver android:name="com.anie.dara.nontonfilm.widget.FilmWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/film_widget_info" />
+        </receiver>
+
+        <service
+            android:name="com.anie.dara.nontonfilm.widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

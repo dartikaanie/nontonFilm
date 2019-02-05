@@ -23,4 +23,10 @@
     <string name="language">Language</string>
     <string name="change_languange">Change Languange</string>
 
+    <string name="add_widget">Add widget</string>
+
+
+    <string name="appwidget_text">Film Favorite</string>
+    <string name="empty_text">NO DATA</string>
+
 </resources>
