@@ -137,9 +137,8 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, 
     public void CariFilm() {
         progressBar.setVisibility(View.VISIBLE);
 
-        String API_BASE_URL = "https://api.themoviedb.org";
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
+                .baseUrl(MainActivity.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FilmClient client = retrofit.create(FilmClient.class);

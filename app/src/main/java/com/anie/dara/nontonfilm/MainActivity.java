@@ -18,17 +18,20 @@ import com.anie.dara.nontonfilm.fragment.UpComingFragment;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static String apiKey = BuildConfig.TMDB_API_KEY;
+    public static String imageUrl = BuildConfig.IMAGE_URL;
+    public static String baseUrl = BuildConfig.BASE_URL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        }
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
             loadFragment(new NowPlayingFragment());
-
     }
 
     private boolean loadFragment(android.support.v4.app.Fragment fragment){
@@ -79,5 +82,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         return true;
     }
+
+
 }
 

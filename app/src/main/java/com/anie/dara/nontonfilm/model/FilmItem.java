@@ -1,25 +1,29 @@
 package com.anie.dara.nontonfilm.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.anie.dara.nontonfilm.db.DatabaseContract;
+
 import java.util.ArrayList;
 
-public class FilmItem implements Parcelable {
-    int id;
-    String title;
-    String overview;
-    double vote_average;
-    String release_date;
-    String poster_path;
-    String original_language;
-    String tagline;
-    Integer runtime;
-    ArrayList<Genre> genres;
+import static com.anie.dara.nontonfilm.db.DatabaseContract.getColumnInt;
+import static com.anie.dara.nontonfilm.db.DatabaseContract.getColumnString;
 
-    public ArrayList<Genre> getGenres() {
-        return genres;
-    }
+public class FilmItem implements Parcelable {
+    private int id;
+    private String title;
+    private String overview;
+    private  double vote_average;
+    private  String release_date;
+    private   String poster_path;
+    private   String original_language;
+    private   String tagline;
+    private   Integer runtime;
+    private   ArrayList<Genre> genres;
+
+
 
     public String getTagline() {
         if(tagline==null){
@@ -35,14 +39,9 @@ public class FilmItem implements Parcelable {
         return runtime;
     }
 
-    ArrayList<Integer> genre_ids;
 
-    public ArrayList<Integer> getGenre_ids() {
-        return genre_ids;
-    }
-
-    public void setGenre_ids(ArrayList<Integer> genre_ids) {
-        this.genre_ids = genre_ids;
+    public ArrayList<Genre> getGenres() {
+        return genres;
     }
 
     public int getId() {
@@ -73,16 +72,8 @@ public class FilmItem implements Parcelable {
         return vote_average;
     }
 
-    public void setVote_average(double vote_average) {
-        this.vote_average = vote_average;
-    }
-
     public String getRelease_date() {
         return release_date;
-    }
-
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
     }
 
     public String getPoster_path() {
@@ -97,12 +88,25 @@ public class FilmItem implements Parcelable {
         return original_language;
     }
 
-    public void setOriginal_language(String original_language) {
-        this.original_language = original_language;
-        }
+
 
     public FilmItem() {
     }
+
+    public FilmItem(int id, String title, String overview, String poster_path) {
+        this.id = id;
+        this.title = title;
+        this.overview = overview;
+        this.poster_path = poster_path;
+    }
+
+    public FilmItem(Cursor cursor) {
+        this.id = getColumnInt(cursor, DatabaseContract.favorit.ID);
+        this.title = getColumnString(cursor, DatabaseContract.favorit.title);
+        this.overview = getColumnString(cursor, DatabaseContract.favorit.overview);
+        this.poster_path = getColumnString(cursor, DatabaseContract.favorit.poster_path);
+    }
+
 
     @Override
     public int describeContents() {
@@ -118,7 +122,7 @@ public class FilmItem implements Parcelable {
         dest.writeString(this.release_date);
         dest.writeString(this.poster_path);
         dest.writeString(this.original_language);
-        dest.writeList(this.genre_ids);
+
 
     }
 
@@ -131,7 +135,6 @@ public class FilmItem implements Parcelable {
         this.release_date = in.readString();
         this.poster_path = in.readString();
         this.original_language = in.readString();
-        this.genre_ids = in.readArrayList(null);
 
     }
 

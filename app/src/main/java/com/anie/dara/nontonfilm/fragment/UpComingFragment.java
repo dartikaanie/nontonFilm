@@ -78,7 +78,7 @@ public class UpComingFragment extends Fragment implements FilmAdapter.OnKlikFilm
         progressBar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org")
+                .baseUrl(MainActivity.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FilmClient client = retrofit.create(FilmClient.class);

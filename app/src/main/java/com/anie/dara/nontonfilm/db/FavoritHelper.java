@@ -10,8 +10,6 @@ import com.anie.dara.nontonfilm.model.FilmItem;
 
 import java.util.ArrayList;
 
-import static android.provider.BaseColumns._ID;
-
 public class FavoritHelper {
 
     private static String DATABASE_TABLE = DatabaseContract.favorit.TABLE_NAME;
@@ -99,8 +97,21 @@ public class FavoritHelper {
                 , null
                 , null
                 , null
-                , _ID + " DESC");
+                ,  DatabaseContract.favorit.ID + " DESC");
     }
+
+    public long insertProvider(ContentValues initialValues) {
+        return db.insert(DatabaseContract.favorit.TABLE_NAME, null, initialValues);
+    }
+
+    public int deleteProvider(String id) {
+        return db.delete(DatabaseContract.favorit.TABLE_NAME, DatabaseContract.favorit.ID + " = ?", new String[]{id});
+    }
+
+    public int updateProvider(String id, ContentValues initialValues) {
+        return db.update(DatabaseContract.favorit.TABLE_NAME, initialValues, DatabaseContract.favorit.ID + " = ?", new String[]{id});
+    }
+
 
 
 }

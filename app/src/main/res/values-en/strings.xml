@@ -11,4 +11,5 @@
     <string name="Fail">Fail to get data</string>
     <string name="addFav">Success to add Favorite</string>
     <string name="deleteFav">Success to delete Favorite</string>
+    <string name="pesan">Wait until data show</string>
 </resources>

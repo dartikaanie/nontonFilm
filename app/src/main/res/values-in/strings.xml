@@ -11,4 +11,5 @@
     <string name="Fail">Gagal mengambil data</string>
     <string name="addFav">berhasil Menambah Favorit</string>
     <string name="deleteFav">Berhasil menghapus Favorit</string>
+    <string name="pesan">Tunggu hingga data muncul</string>
 </resources>

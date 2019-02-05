@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anie.dara.nontonfilm.MainActivity;
 import com.anie.dara.nontonfilm.R;
 import com.anie.dara.nontonfilm.model.FilmItem;
 import com.bumptech.glide.Glide;
@@ -19,8 +20,15 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder>{
     private OnKlikFilm klikFilm;
 
 
+
+    public ArrayList<FilmItem> getDataFilm() {
+        return daftarFilm;
+    }
+
     public void setDataFilm(ArrayList<FilmItem> films) {
-        daftarFilm = films;
+//        daftarFilm = films;
+        this.daftarFilm.clear();
+        this.daftarFilm.addAll(films);
         notifyDataSetChanged();
     }
 
@@ -38,15 +46,15 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder>{
     public void onBindViewHolder(@NonNull FilmHolder holder, int position) {
         FilmItem filmItem = daftarFilm.get(position);
         String subdes;
-        if(filmItem.getOverview().length()<100){
-            subdes=filmItem.getOverview();
+        if(getDataFilm().get(position).getOverview().length()<100){
+            subdes=getDataFilm().get(position).getOverview();
         } else{
-            subdes=filmItem.getOverview().substring(0,100)+"...";
+            subdes=getDataFilm().get(position).getOverview().substring(0,100)+"...";
         }
-        holder.title.setText(filmItem.getTitle());
+        holder.title.setText(getDataFilm().get(position).getTitle());
         holder.overview.setText(subdes);
 
-        String url = "https://image.tmdb.org/t/p/w92/" + filmItem.getPoster_path();
+        String url = MainActivity.imageUrl + getDataFilm().get(position).getPoster_path();
         Glide.with(holder.itemView)
                 .load(url)
                 .into(holder.poster_path);

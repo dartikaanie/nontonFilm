@@ -1,7 +1,10 @@
 package com.anie.dara.nontonfilm;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anie.dara.nontonfilm.adapter.GenreAdapter;
+import com.anie.dara.nontonfilm.db.DatabaseContract;
 import com.anie.dara.nontonfilm.db.FavoritHelper;
 import com.anie.dara.nontonfilm.model.FilmItem;
 import com.anie.dara.nontonfilm.model.Genre;
@@ -37,9 +41,9 @@ public class DetailActivity extends AppCompatActivity {
     private TextView title, rate, date, bahasa, overview, tagline, duration;
     private  ImageView poster;
     private  GenreAdapter genreAdapter;
-    private   ArrayList<Integer> genre;
     private   ArrayList<Genre> genreFilm;
     private    RecyclerView revGenre;
+
     private    FrameLayout detail_view, detailProses;
     FavoritHelper favoritHelper;
     MenuItem fav;
@@ -80,15 +84,15 @@ public class DetailActivity extends AppCompatActivity {
         if(filmItem != null) {
             getSupportActionBar().setTitle(filmItem.getTitle());
             detail_view.setVisibility(View.INVISIBLE);
-            String url = "http://image.tmdb.org/t/p/w500" + filmItem.getPoster_path();
+            String url = MainActivity.imageUrl + filmItem.getPoster_path();
             Glide.with(this).load(url).into(poster);
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.themoviedb.org")
+                    .baseUrl(MainActivity.baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             FilmClient client = retrofit.create(FilmClient.class);
-            Call<FilmItem> call = client.getFilm(filmItem.getId(), "4c180b85240811f5521423090f06d6cc");
+            Call<FilmItem> call = client.getFilm(filmItem.getId(), MainActivity.apiKey);
             call.enqueue(new Callback<FilmItem>() {
                 @Override
                 public void onResponse(Call<FilmItem> call, Response<FilmItem> response) {
@@ -110,6 +114,18 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d("gagalDetail", t.toString());
                 }
             });
+        }
+
+        Uri uri = getIntent().getData();
+
+        if (uri != null) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+
+            if (cursor != null) {
+
+                if (cursor.moveToFirst()) filmItem = new FilmItem(cursor);
+                cursor.close();
+            }
         }
     }
 
@@ -140,21 +156,34 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void changeFavorit(){
-        favoritHelper = new FavoritHelper(this);
-        favoritHelper.open();
-        String change;
-        if(!favoritHelper.cariFav(filmItem.getId())) {
-            favoritHelper.insert(filmItem.getId(), filmItem.getTitle(), filmItem.getOverview(), filmItem.getPoster_path());
-            change = String.format(DetailActivity.this.getString(R.string.addFav));
-            fav.setIcon(R.drawable.favorit_fill);
-        }else{
-            favoritHelper.delete(filmItem.getId());
-            change = String.format(DetailActivity.this.getString(R.string.deleteFav));
-            fav.setIcon(R.drawable.favorit_fill_gray);
-        }
-        favoritHelper.close();
+        if(filmItem != null) {
+            favoritHelper = new FavoritHelper(this);
+            favoritHelper.open();
+            String change;
+            if (!favoritHelper.cariFav(filmItem.getId())) {
+                ContentValues values = new ContentValues();
+                values.put("id", filmItem.getId());
+                values.put("title", filmItem.getTitle());
+                values.put("overview", filmItem.getOverview());
+                values.put("poster_path", filmItem.getPoster_path());
+                getContentResolver().insert(DatabaseContract.favorit.CONTENT_URI, values);
+                finish();
 
-        Toast.makeText(DetailActivity.this,change, Toast.LENGTH_SHORT).show();
+                favoritHelper.insert(filmItem.getId(), filmItem.getTitle(), filmItem.getOverview(), filmItem.getPoster_path());
+                change = getString(R.string.addFav);
+                fav.setIcon(R.drawable.favorit_fill);
+            } else {
+                favoritHelper.delete(filmItem.getId());
+                change = String.format(DetailActivity.this.getString(R.string.deleteFav));
+                fav.setIcon(R.drawable.favorit_fill_gray);
+            }
+            favoritHelper.close();
+
+            Toast.makeText(DetailActivity.this, change, Toast.LENGTH_SHORT).show();
+        }else{
+            String pesan = getString(R.string.pesan);
+            Toast.makeText(DetailActivity.this, pesan, Toast.LENGTH_SHORT).show();
+        }
 
        }
 
