@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Watching Films</string>
-    <string name="Judul" />
-    <string name="lokasi" />
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
     <string name="search_film">Search Film</string>
@@ -9,12 +7,20 @@
     <string name="movie_title">Movie Title</string>
     <string name="success">Success to get data</string>
     <string name="Fail">Fail to get data</string>
+    <string name="notFound">Data Not Found</string>
     <string name="addFav">Success to add Favorite</string>
     <string name="deleteFav">Success to delete Favorite</string>
     <string name="pesan">Wait until data show</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="genres">Genres</string>
+    <string name="realese_date">Realese Date</string>
+    <string name="overview">Overview</string>
+    <string name="title">Title</string>
+    <string name="tagline">tagline</string>
+    <string name="durasi">durasi</string>
+    <string name="bahasa">bahasa</string>
+    <string name="rating">Rating</string>
+    <string name="duration">Duration</string>
+    <string name="language">Language</string>
+    <string name="change_languange">Change Languange</string>
 
 </resources>

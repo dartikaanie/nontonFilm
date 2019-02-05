@@ -174,7 +174,7 @@ public class DetailActivity extends AppCompatActivity {
                 fav.setIcon(R.drawable.favorit_fill);
             } else {
                 favoritHelper.delete(filmItem.getId());
-                change = String.format(DetailActivity.this.getString(R.string.deleteFav));
+                change = getString(R.string.deleteFav);
                 fav.setIcon(R.drawable.favorit_fill_gray);
             }
             favoritHelper.close();

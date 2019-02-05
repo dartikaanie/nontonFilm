@@ -9,14 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.anie.dara.nontonfilm.DetailActivity;
@@ -36,17 +37,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, View.OnClickListener {
+public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm {
 
     private  ArrayList<FilmItem> daftarFilm = new ArrayList<>();
     private  RecyclerView revFilmlist;
     private  FilmAdapter filmAdapter;
     private   ProgressBar progressBar;
-    private   CardView cardCari;
-    private   Button cariBtn;
-    private   EditText cariText;
-    private   String filmCari;
+    private CardView cardCari;
+//    private   Button cariBtn;
+//    private   EditText cariText;
     private   Activity activity;
+    private SearchView searchView;
+    SearchView.OnQueryTextListener queryTextListener;
+    MenuItem set;
 
 
     @Override
@@ -81,13 +84,31 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, 
 
         progressBar = view.findViewById(R.id.progressBar);
         cardCari = view.findViewById(R.id.cardCari);
-        cariText = view.findViewById(R.id.cariText);
-        cariBtn = view.findViewById(R.id.cariButton);
-        cariBtn.setOnClickListener(this);
+//        cariText = view.findViewById(R.id.cariText);
+//        cariBtn = view.findViewById(R.id.cariButton);
+//        cariBtn.setOnClickListener(this);
         progressBar.setVisibility(View.VISIBLE);
         revFilmlist.setVisibility(View.INVISIBLE);
-
         getNowPlayingFilms();
+        searchView = view.findViewById(R.id.search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("d", query);
+               if(query != null){
+                   CariFilm(query);
+               }else{
+                   getNowPlayingFilms();
+               }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         return view;
 
     }
@@ -97,7 +118,7 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, 
         progressBar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org")
+                .baseUrl(MainActivity.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FilmClient client = retrofit.create(FilmClient.class);
@@ -108,8 +129,7 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, 
 
                 FilmList  listFilm = response.body();
                 List<FilmItem> listFilmItem = listFilm.results;
-                String sukses = String.format(activity.getString(R.string.success));
-                Toast.makeText(activity,sukses, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,getString(R.string.success), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 cardCari.setVisibility(View.VISIBLE);
                 revFilmlist.setVisibility(View.VISIBLE);
@@ -118,12 +138,11 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, 
 
             @Override
             public void onFailure(Call<FilmList> call, Throwable t) {
-                String gagal = String.format(activity.getString(R.string.Fail));
-                Toast.makeText(activity,gagal, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,getString(R.string.Fail), Toast.LENGTH_SHORT).show();
                 Log.d("Gagal", t.toString());
             }
         });
-        String title = String.format(activity.getString(R.string.now_playing));
+        String title = getString(R.string.now_playing);
         ((AppCompatActivity)activity).getSupportActionBar().setSubtitle(title);
 
     }
@@ -134,52 +153,56 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm, 
         moveDetail.putExtra("data_film_move", filmItem);
         startActivity(moveDetail);
     }
-    public void CariFilm() {
-        progressBar.setVisibility(View.VISIBLE);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MainActivity.baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        FilmClient client = retrofit.create(FilmClient.class);
+    public void CariFilm(String filmCari) {
 
-        Call<FilmList> call = client.search(MainActivity.apiKey, filmCari);
-        call.enqueue(new Callback<FilmList>() {
-            @Override
-            public void onResponse(Call<FilmList> call, Response<FilmList> response) {
-                FilmList  listFilm = response.body();
-                List<FilmItem> listFilmItem = listFilm.results;
-                String sukses = String.format(getContext().getString(R.string.success));
-                Toast.makeText(getActivity(),sukses, Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-                cardCari.setVisibility(View.VISIBLE);
-                filmAdapter.setDataFilm(new ArrayList<FilmItem>(listFilmItem));
-            }
+            progressBar.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onFailure(Call<FilmList> call, Throwable t) {
-                String gagal = String.format(getContext().getString(R.string.Fail));
-                Toast.makeText(getActivity(),gagal, Toast.LENGTH_SHORT).show();
-            }
-        });
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(MainActivity.baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            FilmClient client = retrofit.create(FilmClient.class);
 
-        String title = String.format(getResources().getString(R.string.search_film));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(title);
+            Call<FilmList> call = client.search(MainActivity.apiKey, filmCari);
+            call.enqueue(new Callback<FilmList>() {
+                @Override
+                public void onResponse(Call<FilmList> call, Response<FilmList> response) {
+                    FilmList  listFilm = response.body();
+                    List<FilmItem> listFilmItem = listFilm.results;
+                    if(listFilmItem.size() == 0){
+                        Toast.makeText(activity,getString(R.string.notFound), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(activity,getString(R.string.success), Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    progressBar.setVisibility(View.GONE);
+                    filmAdapter.setDataFilm(new ArrayList<FilmItem>(listFilmItem));
+                }
+
+                @Override
+                public void onFailure(Call<FilmList> call, Throwable t) {
+                    Toast.makeText(activity,getString(R.string.Fail), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(getString(R.string.search_film));
     }
+
+
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case   R.id.cariButton :
-                filmCari = cariText.getText().toString();
-                if(TextUtils.isEmpty(cariText.getText().toString())){
-                    getNowPlayingFilms();
-                }else{
-                    CariFilm();
-                }
-                break;
-        }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+
+
 
 
 }

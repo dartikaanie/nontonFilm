@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Nonton Film</string>
-    <string name="Judul" />
-    <string name="lokasi" />
     <string name="now_playing">Sedang Tayang</string>
     <string name="upcoming">Akan Datang</string>
     <string name="search_film">Cari Film</string>
@@ -12,4 +10,15 @@
     <string name="addFav">berhasil Menambah Favorit</string>
     <string name="deleteFav">Berhasil menghapus Favorit</string>
     <string name="pesan">Tunggu hingga data muncul</string>
+    <string name="genres">Genre</string>
+    <string name="realese_date">Tanggal rilis</string>
+    <string name="overview">Deskripsi</string>
+    <string name="title">Judul</string>
+    <string name="tagline">tagline</string>
+    <string name="durasi">durasi</string>
+    <string name="bahasa">bahasa</string>
+    <string name="rating">Penilaian</string>
+    <string name="duration">Durasi</string>
+    <string name="language">Bahasa</string>
+    <string name="notFound">Data tidak ditemukan</string>
 </resources>

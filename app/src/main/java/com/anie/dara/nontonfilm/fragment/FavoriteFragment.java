@@ -17,7 +17,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.anie.dara.nontonfilm.DetailActivity;
 import com.anie.dara.nontonfilm.LoadCallback;
@@ -37,11 +36,9 @@ import static com.anie.dara.nontonfilm.helper.MappingHelper.mapCursorToArrayList
  */
 public class FavoriteFragment extends Fragment implements FilmAdapter.OnKlikFilm {
 
-    private ArrayList<FilmItem> daftarFilm = new ArrayList<>();
     private RecyclerView revFilmlist;
     private FilmAdapter filmAdapter =new FilmAdapter();
-    private ProgressBar progressBar;
-    private Activity activity;
+     private Activity activity;
     private FavoritHelper favoritHelper;
 
     private static final String EXTRA_STATE = "EXTRA_STATE";
@@ -64,8 +61,6 @@ public class FavoriteFragment extends Fragment implements FilmAdapter.OnKlikFilm
         ArrayList<FilmItem> filmlist = favoritHelper.getData();
         favoritHelper.close();
 
-
-//        filmAdapter = new FilmAdapter();
         filmAdapter.setDataFilm(filmlist);
         filmAdapter.setClickHandler(this);
 

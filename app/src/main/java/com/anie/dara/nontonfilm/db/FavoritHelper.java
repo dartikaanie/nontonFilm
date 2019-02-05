@@ -75,12 +75,7 @@ public class FavoritHelper {
     public boolean cariFav(int id){
         String query = "select * from " + DatabaseContract.favorit.TABLE_NAME + " WHERE " + DatabaseContract.favorit.ID + "=" + id ;
         Cursor cursor = db.rawQuery(query,new String[] { });
-        if(cursor.getCount() >= 1){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return cursor.getCount() >= 1;
 
     }
 

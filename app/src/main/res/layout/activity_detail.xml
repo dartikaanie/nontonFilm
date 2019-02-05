@@ -43,10 +43,9 @@
                         android:id="@+id/detail_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/detail_poster"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="Title"
+                        android:text="@string/title"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
                         android:textSize="30sp"
@@ -57,7 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="15dp"
-                        android:text="With Great Power Comes Great Responbility "
+                        android:text="@string/tagline"
                         android:textAlignment="center" />
 
                     <TableLayout
@@ -80,18 +79,19 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginEnd="50dp"
                                 android:layout_marginStart="50dp"
-                                android:text="00"
+                                android:text="rate"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="HardcodedText" />
 
                             <TextView
                                 android:id="@+id/detail_duration"
                                 android:layout_width="75dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="50dp"
-                                android:text="00"
+                                android:text="@string/durasi"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="24sp"
@@ -104,7 +104,7 @@
                                 android:layout_alignStart="@+id/detail_poster"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="50dp"
-                                android:text="00"
+                                android:text="@string/bahasa"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="24sp"
@@ -125,7 +125,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginEnd="50dp"
                                 android:layout_marginStart="50dp"
-                                android:text="Rating"
+                                android:text="@string/rating"
                                 android:textColor="@color/cardview_dark_background"
                                 android:textSize="12sp" />
 
@@ -134,7 +134,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="50dp"
-                                android:text="Duration"
+                                android:text="@string/duration"
                                 android:textAlignment="center"
                                 android:textSize="12sp" />
 
@@ -145,7 +145,7 @@
                                 android:layout_alignStart="@+id/detail_poster"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="50dp"
-                                android:text="Language"
+                                android:text="@string/language"
                                 android:textColor="@color/cardview_dark_background"
                                 android:textSize="12sp" />
 
@@ -159,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:padding="5dp"
-                        android:text="Genres"
+                        android:text="@string/genres"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -175,7 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="Realese Date"
+                        android:text="@string/realese_date"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -184,14 +184,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="realese_date" />
+                        android:text="@string/realese_date" />
 
                     <TextView
                         android:id="@+id/textView10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="Overview"
+                        android:text="@string/overview"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -200,7 +200,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="overview" />
+                        android:text="@string/overview" />
 
                 </LinearLayout>
             </FrameLayout>

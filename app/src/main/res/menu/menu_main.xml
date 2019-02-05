@@ -6,6 +6,6 @@
     <item
         android:id="@+id/menu_bahasa"
         android:icon="@drawable/setting"
-        android:title="Change Languange"
+        android:title="@string/change_languange"
         app:showAsAction="ifRoom" />
 </menu>
