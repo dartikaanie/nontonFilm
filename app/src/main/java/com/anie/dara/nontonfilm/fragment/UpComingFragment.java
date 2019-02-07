@@ -4,9 +4,14 @@ package com.anie.dara.nontonfilm.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +49,7 @@ public class UpComingFragment extends Fragment implements FilmAdapter.OnKlikFilm
     private  FilmAdapter filmAdapter;
     private  ProgressBar progressBar;
     private  Activity activity;
+    private  String title;
 
     @Override
     public void onAttach(Context context) {
@@ -55,21 +61,48 @@ public class UpComingFragment extends Fragment implements FilmAdapter.OnKlikFilm
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_up_coming, container, false);
 
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         filmAdapter = new FilmAdapter();
         filmAdapter.setDataFilm(daftarFilm);
         filmAdapter.setClickHandler(this);
 
         revFilmlist = view.findViewById(R.id.list_film);
         revFilmlist.setAdapter(filmAdapter);
-        revFilmlist.setLayoutManager(new LinearLayoutManager(getActivity()));
+        int orientasi = getResources().getConfiguration().orientation;
+        RecyclerView.LayoutManager layoutManager;
 
+        if(orientasi == Configuration.ORIENTATION_PORTRAIT){
+            layoutManager = new LinearLayoutManager(getContext());
+        }else{
+            layoutManager = new GridLayoutManager(getContext(),2);
+
+        }
+        revFilmlist.setLayoutManager(layoutManager);
         progressBar = view.findViewById(R.id.progressBar);
 
         progressBar.setVisibility(View.VISIBLE);
         revFilmlist.setVisibility(View.INVISIBLE);
 
-        getUpcomingFilms();
-        return view;
+        if(savedInstanceState!=null){
+            Log.d("create", String.valueOf(daftarFilm.size()));
+            daftarFilm = savedInstanceState.getParcelableArrayList("filmUp");
+            revFilmlist.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+            filmAdapter.setDataFilm(daftarFilm);
+            revFilmlist.setAdapter(filmAdapter);
+
+            title = savedInstanceState.getString("title");
+            ((AppCompatActivity)activity).getSupportActionBar().setSubtitle(title);
+        }else{
+            getUpcomingFilms();
+        }
+
     }
 
     public void getUpcomingFilms() {
@@ -89,23 +122,24 @@ public class UpComingFragment extends Fragment implements FilmAdapter.OnKlikFilm
 
                 FilmList  listFilm = response.body();
                 List<FilmItem> listFilmItem = listFilm.results;
-                String sukses = String.format(getContext().getString(R.string.success));
-                Toast.makeText(getActivity(),sukses, Toast.LENGTH_SHORT).show();
+                String sukses = getString(R.string.success);
+                Toast.makeText(activity,sukses, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 revFilmlist.setVisibility(View.VISIBLE);
-                filmAdapter.setDataFilm(new ArrayList<FilmItem>(listFilmItem));
+                daftarFilm = new ArrayList<FilmItem>(listFilmItem);
+                filmAdapter.setDataFilm(daftarFilm);
 
             }
 
             @Override
             public void onFailure(Call<FilmList> call, Throwable t) {
-                String gagal = String.format(activity.getString(R.string.Fail));
+                String gagal = getString(R.string.Fail);
                 Toast.makeText(activity,gagal, Toast.LENGTH_SHORT).show();
                 Log.d("Gagal", t.toString());
             }
         });
 
-        String title = String.format(activity.getString(R.string.upcoming));
+        title = String.format(activity.getString(R.string.upcoming));
         ((AppCompatActivity)activity).getSupportActionBar().setSubtitle(title);
     }
 
@@ -115,4 +149,14 @@ public class UpComingFragment extends Fragment implements FilmAdapter.OnKlikFilm
         moveDetail.putExtra("data_film_move", filmItem);
         startActivity(moveDetail);
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.d("saveUp", String.valueOf(daftarFilm.size()));
+        savedInstanceState.putParcelableArrayList("filmUp", (ArrayList<? extends Parcelable>) daftarFilm);
+        savedInstanceState.putString("title",title);
+    }
+
+
 }

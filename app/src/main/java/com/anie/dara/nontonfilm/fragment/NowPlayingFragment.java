@@ -3,11 +3,14 @@ package com.anie.dara.nontonfilm.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,6 +46,7 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
     private  FilmAdapter filmAdapter;
     private  ProgressBar progressBar;
     private  Activity activity;
+    private  String title;
 
     @Override
     public void onAttach(Context context) {
@@ -54,6 +58,12 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_now_playing, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         filmAdapter = new FilmAdapter();
         filmAdapter.setDataFilm(daftarFilm);
@@ -61,15 +71,34 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
 
         revFilmlist = view.findViewById(R.id.list_film);
         revFilmlist.setAdapter(filmAdapter);
-        revFilmlist.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        RecyclerView.LayoutManager layoutManager;
+        int orientasi = getResources().getConfiguration().orientation;
+        if(orientasi == Configuration.ORIENTATION_PORTRAIT){
+            layoutManager = new LinearLayoutManager(getContext());
+        }else{
+            layoutManager = new GridLayoutManager(getContext(),2);
+        }
+        revFilmlist.setLayoutManager(layoutManager);
 
         progressBar = view.findViewById(R.id.progressBar);
 
         progressBar.setVisibility(View.VISIBLE);
         revFilmlist.setVisibility(View.INVISIBLE);
 
-        getNowPlayingFilms();
-        return view;
+        if(savedInstanceState!=null){
+            Log.d("create", String.valueOf(daftarFilm.size()));
+            daftarFilm = savedInstanceState.getParcelableArrayList("film");
+            revFilmlist.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+            filmAdapter.setDataFilm(daftarFilm);
+            revFilmlist.setAdapter(filmAdapter);
+
+            title = savedInstanceState.getString("title");
+            ((AppCompatActivity)activity).getSupportActionBar().setSubtitle(title);
+        }else{
+            getNowPlayingFilms();
+        }
     }
 
     private void getNowPlayingFilms() {
@@ -109,11 +138,6 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
 
     }
 
-//    public static ArrayList<FilmItem> getDataNowPlaying (){
-//        ArrayList<FilmItem> listFilm = new ArrayList<>();
-//        listFilm
-//        return listFilm;
-//    }
 
     @Override
     public void filmItemClicked(FilmItem filmItem) {
@@ -121,4 +145,14 @@ public class NowPlayingFragment extends Fragment implements FilmAdapter.OnKlikFi
         moveDetail.putExtra("data_film_move", filmItem);
         startActivity(moveDetail);
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.d("save", String.valueOf(daftarFilm.size()));
+        savedInstanceState.putParcelableArrayList("film", (ArrayList<? extends Parcelable>) daftarFilm);
+        savedInstanceState.putString("title",title);
+    }
+
+
 }

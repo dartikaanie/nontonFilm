@@ -8,4 +8,9 @@
         android:icon="@drawable/setting"
         android:title="@string/change_languange"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_schedule"
+        android:icon="@drawable/ic_add_alert_black_24dp"
+        android:title="Item"
+        app:showAsAction="ifRoom" />
 </menu>

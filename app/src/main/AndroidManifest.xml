@@ -34,7 +34,7 @@
             android:readPermission="com.anie.dara.nontonfilm.READ_DATABASE"
             android:writePermission="com.anie.dara.nontonfilm.WRITE_DATABASE" />
 
-        <receiver android:name="com.anie.dara.nontonfilm.widget.FilmWidget">
+        <receiver android:name=".widget.FilmWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -45,9 +45,15 @@
         </receiver>
 
         <service
-            android:name="com.anie.dara.nontonfilm.widget.StackWidgetService"
+            android:name=".widget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <service android:name="com.anie.dara.nontonfilm.scheduler.DailyReminder"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <activity android:name=".scheduler.SettingScheduleActivity"></activity>
     </application>
 
 </manifest>

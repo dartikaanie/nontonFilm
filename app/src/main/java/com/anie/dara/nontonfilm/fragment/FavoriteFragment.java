@@ -4,6 +4,7 @@ package com.anie.dara.nontonfilm.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,8 +68,15 @@ public class FavoriteFragment extends Fragment implements FilmAdapter.OnKlikFilm
 
         revFilmlist = view.findViewById(R.id.list_film);
         revFilmlist.setAdapter(filmAdapter);
-        revFilmlist.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView.LayoutManager layoutManager;
 
+        int orientasi = getResources().getConfiguration().orientation;
+        if(orientasi == Configuration.ORIENTATION_PORTRAIT){
+            layoutManager = new LinearLayoutManager(getContext());
+        }else{
+            layoutManager = new GridLayoutManager(getContext(),2);
+
+        }
 
         handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();

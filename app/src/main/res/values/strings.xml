@@ -29,4 +29,9 @@
     <string name="appwidget_text">Film Favorite</string>
     <string name="empty_text">NO DATA</string>
 
+
+    <string name="reminderDaily">has been release Today</string>
+    <string name="on"> on </string>
+    <string name="off"> off </string>
+
 </resources>

@@ -21,4 +21,14 @@
     <string name="duration">Durasi</string>
     <string name="language">Bahasa</string>
     <string name="notFound">Data tidak ditemukan</string>
+
+    <string name="add_widget">tambah widget</string>
+
+
+    <string name="appwidget_text">Film Favorit</string>
+    <string name="empty_text">Tidak ada Data</string>
+    <string name="reminderDaily">rilis hari ini</string>
+    <string name="on"> aktifkan </string>
+    <string name="off"> matikan </string>
+
 </resources>

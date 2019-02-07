@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,13 +62,11 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        //Save the fragment's state here
-    }
-
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+        if (searchView != null) {
+            String searchText = searchView.getQuery().toString();
+            if (!TextUtils.isEmpty(searchText))
+                outState.putString("text", searchText);
+        }
     }
 
     @Override
@@ -90,24 +89,32 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm {
         progressBar.setVisibility(View.VISIBLE);
         revFilmlist.setVisibility(View.INVISIBLE);
         getNowPlayingFilms();
-        searchView = view.findViewById(R.id.search);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d("d", query);
-               if(query != null){
-                   CariFilm(query);
-               }else{
-                   getNowPlayingFilms();
-               }
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
+        if (savedInstanceState != null) {
+            String text = savedInstanceState.getString("text", null);
+            if (!TextUtils.isEmpty(text)) {
+                CariFilm(text);
             }
-        });
+        }else{
+            searchView = view.findViewById(R.id.search);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Log.d("d", query);
+                   if(query != null){
+                       CariFilm(query);
+                   }else{
+                       getNowPlayingFilms();
+                   }
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    return false;
+                }
+            });
+        }
 
         return view;
 
@@ -199,10 +206,5 @@ public class SearchFragment extends Fragment implements FilmAdapter.OnKlikFilm {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
-
-
-
 
 }

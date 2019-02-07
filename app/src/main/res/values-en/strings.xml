@@ -21,4 +21,14 @@
     <string name="duration">Duration</string>
     <string name="language">Language</string>
     <string name="notFound">Data Not Found</string>
+
+    <string name="add_widget">Add widget</string>
+
+
+    <string name="appwidget_text">Film Favorite</string>
+    <string name="empty_text">NO DATA</string>
+    <string name="reminderDaily">has been release Today</string>
+    <string name="on"> on </string>
+    <string name="off"> off </string>
+
 </resources>
